@@ -15,7 +15,7 @@ import lecho.lib.hellocharts.view.PieChartView;
 
 public class AccessDate extends AppCompatActivity {
     int d_no = 0;
-    String color = "";
+    String color = "#3F51B5";
 
 
     @Override
@@ -27,7 +27,6 @@ public class AccessDate extends AppCompatActivity {
     public void startup(){
         String stream_data = getIntent().getStringExtra("Catch_Date");
         List<SliceValue> pieData = new ArrayList<>();
-        colorset();
         pieData.add(new SliceValue(MainActivity.Humidity[d_no], Color.parseColor(color)));
         pieData.add(new SliceValue((100 - MainActivity.Humidity[d_no]), Color.parseColor("#0000ffff")));
         for(int i=0;i<5;i++){
@@ -51,24 +50,8 @@ public class AccessDate extends AppCompatActivity {
         txt_1.setText(MainActivity.dates_string[d_no]);
         txt_2.setText(MainActivity.min_temp[d_no] + "°C");
         txt_3.setText(MainActivity.max_temp[d_no] + "°C");
-        txt_4.setText(MainActivity.Pressure[d_no]);
-        new CustomListAdaptor.DownloadImageFromInternet(img_1).execute(MainActivity.icon[d_no]);
+        txt_4.setText("Pressure " + MainActivity.Pressure[d_no]);
+        img_1.setImageResource(MainActivity.icon[d_no]);
     }
 
-    public void colorset(){
-        String pressure = MainActivity.Pressure[d_no];
-        Float F_pressure = Float.parseFloat(pressure);
-        if (F_pressure>80.0){
-            color = "#6200EA";
-        }
-        else if(F_pressure>75){
-            color = "#651FFF";
-        }
-        else if (F_pressure>50){
-            color = "#7C4DFF";
-        }
-        else{
-            color = "#B388FF";
-        }
-    }
 }

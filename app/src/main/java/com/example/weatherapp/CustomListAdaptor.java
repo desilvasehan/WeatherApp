@@ -22,15 +22,17 @@ public class CustomListAdaptor extends ArrayAdapter<String>  {
     private final String[] date;
     private final String[] max_temp;
     private final String[] min_temp;
-    private final String[] icon_val;
+    private final Integer[] icon_val;
 
-    public CustomListAdaptor(Activity context, String[] date,String[] max_temper,String[] min_temper,String[] icon) {
+
+    public CustomListAdaptor(Activity context, String[] date,String[] max_temper,String[] min_temper,Integer[] icon) {
         super(context, R.layout.datelist, date);
         this.context = context;
         this.date = date;
         this.max_temp = max_temper;
         this.min_temp = min_temper;
         this.icon_val = icon;
+
     }
 
     public static class DownloadImageFromInternet extends AsyncTask<String, Void, Bitmap>{
@@ -70,8 +72,7 @@ public class CustomListAdaptor extends ArrayAdapter<String>  {
             txtTitle.setText(date[position]);
             txt_matemp.setText("Max : " + max_temp[position] + "°C");
             txt_mitemp.setText("Min : " + min_temp[position] + "°C");
-            new DownloadImageFromInternet(imageView).execute(icon_val[position]);
-
+            imageView.setImageResource(icon_val[position]);
             return rowView;
         }
         else{

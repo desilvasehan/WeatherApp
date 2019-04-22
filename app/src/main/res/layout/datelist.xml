@@ -13,8 +13,7 @@
         android:id="@+id/date"
         android:textSize="20sp"
         android:padding="5dp"
-        android:layout_weight="1"
-        android:textColor="#FFFFFF"/>
+        android:layout_weight="1"/>
 
      <ImageView
         android:layout_width="wrap_content"
@@ -35,8 +34,7 @@
             android:id="@+id/ma_temp"
             android:textSize="20sp"
             android:padding="5dp"
-            android:layout_weight="1"
-            android:textColor="#FFFFFF"/>
+            android:layout_weight="1"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,7 +42,6 @@
             android:id="@+id/mi_temp"
             android:textSize="20sp"
             android:padding="5dp"
-            android:layout_weight="1"
-            android:textColor="#FFFFFF"/>
+            android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>

@@ -5,7 +5,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
@@ -28,14 +27,25 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class MainActivity extends AppCompatActivity {
-    public static String[] dates_string,min_temp,max_temp,icon,description,Pressure;
+    public static String[] dates_string,min_temp,max_temp, main,description,Pressure;
     public static Integer[] Humidity;
     public static final int RequestPermissionsCode = 2;
-    LocationManager locationManager;
+    public Integer[] icon_list = {
+            R.drawable.clear,
+            R.drawable.clouds,
+            R.drawable.drizzel,
+            R.drawable.mist,
+            R.drawable.rain,
+            R.drawable.snow,
+            R.drawable.thunderstorm
+    };
+
+    public static Integer[] icon;
 
     String[] permissions = {
             Manifest.permission.INTERNET,
@@ -159,10 +169,11 @@ public class MainActivity extends AppCompatActivity {
             String temp2;
             max_temp = new String[6];
             min_temp = new String[6];
-            icon = new String[6];
+            main = new String[6];
             Pressure = new String[6];
             Humidity = new Integer[6];
             description = new String[6];
+            icon = new Integer[6];
 
             for (int i=0;i<list.length();i++){
                 JSONObject a = list.getJSONObject(i);
@@ -180,8 +191,34 @@ public class MainActivity extends AppCompatActivity {
                 temp2 = temp2.replace(']',' ');
 
                 JSONObject subroot2 = new JSONObject(temp2);
-                icon[i] = "http://openweathermap.org/img/w/" + subroot2.getString("icon") + ".png";
+                main[i] = subroot2.getString("main");
                 description[i] = subroot2.getString("description");
+            }
+
+            for(int j=0;j<6;j++){
+                if(main[j].equals("Clear")){
+                    icon[j] = (icon_list[0]);
+                }
+                else if (main[j].equals("Clouds")){
+                    icon[j] = (icon_list[1]);
+                }
+                else if (main[j].equals("Drizzle")){
+                    icon[j] = (icon_list[3]);
+                }
+                else if (main[j].equals("Rain")){
+                    icon[j] = (icon_list[4]);
+                }
+                else if (main[j].equals("Snow")){
+                    icon[j] = (icon_list[5]);
+                }
+                else if (main[j].equals("Thunderstorm")){
+                    icon[j] = (icon_list[6]);
+                }
+                else{
+                    icon[j] = (icon_list[2]);
+                }
+                System.out.println("Main : " + main[j]);
+                System.out.println("Icon name : " + icon[j]);
             }
         }
         catch (JSONException je){
@@ -199,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                 dates_string[i] = date.format(formatter);
                 date = date.plusDays(1);
             }
-            final CustomListAdaptor adaptor = new CustomListAdaptor(this,dates_string,max_temp,min_temp,icon);
+            final CustomListAdaptor adaptor = new CustomListAdaptor(this,dates_string,max_temp,min_temp, icon);
             list = (ListView) findViewById(R.id.list);
             list.setAdapter((ListAdapter) adaptor);
             System.out.println("Done!");
