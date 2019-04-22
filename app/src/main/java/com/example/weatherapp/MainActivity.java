@@ -230,20 +230,19 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             LocalDate date = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE");
             dates_string=new String[6];
             for(int i=0;i<6;i++){
                 dates_string[i] = date.format(formatter);
                 date = date.plusDays(1);
             }
-            final CustomListAdaptor adaptor = new CustomListAdaptor(this,dates_string,max_temp,min_temp, icon);
+            final CustomListAdaptor adaptor = new CustomListAdaptor(this,dates_string,max_temp,min_temp, icon,main);
             list = (ListView) findViewById(R.id.list);
             list.setAdapter((ListAdapter) adaptor);
             System.out.println("Done!");
         }catch (Exception e){
             System.out.println("Error Occured : " + e);
         }
-
     }
 
 
