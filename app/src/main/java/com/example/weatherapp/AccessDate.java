@@ -40,7 +40,7 @@ public class AccessDate extends AppCompatActivity {
 
         float avg_temp = (Float.valueOf(MainActivity.min_temp[d_no]) + Float.valueOf(MainActivity.min_temp[d_no]))/2;
         txt_1.setText(MainActivity.dates_string[d_no]);
-        txt_2.setText(avg_temp + "°C");
+        txt_2.setText(avg_temp + MainActivity.temp_sign);
         txt_3.setText(MainActivity.city + "," + MainActivity.country);
         txt_4.setText(MainActivity.description[d_no].toUpperCase());
         txt_5.setText("Humidity: "+String.valueOf(MainActivity.Humidity[d_no])+"%");

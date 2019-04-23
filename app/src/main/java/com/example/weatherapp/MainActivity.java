@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -37,8 +38,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class MainActivity extends AppCompatActivity {
-    public static String[] dates_string,min_temp,max_temp, main,description,Pressure;
-    public static String location,city,country;
+    public static String[] dates_string,min_temp,max_temp, main,description;
+    public static String location,city,country,temp_sign;
     public static Integer[] Humidity;
     public static final int RequestPermissionsCode = 2;
     public Integer[] icon_list = {
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.snow,
             R.drawable.thunderstorm
     };
+
 
     AppLocationService appLocationService;
 
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getlocation();
         EnableRuntimePermission();
-
+        temp_sign = "°C";
         if (ActivityCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
             FetchData data = new FetchData();
@@ -86,6 +88,44 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(pass_intent,0);
             }
         });
+
+        final Button btn1 = findViewById(R.id.TempChange);
+        View.OnClickListener ocl_1 = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DecimalFormat df1 = new DecimalFormat("#.##");
+                Double temp;
+                if (btn1.getText().equals("°C")){
+                    for(int i=0;i<6;i++){
+                        temp = Double.parseDouble(max_temp[i]);
+                        temp = (temp * (9.0/5.0)) + 32;
+                        max_temp[i] = df1.format(temp);
+
+                        temp = Double.parseDouble(min_temp[i]);
+                        temp = (temp * (9.0/5.0)) + 32;
+                        min_temp[i] = df1.format(temp);
+                    }
+                    temp_sign = "°F";
+                    btn1.setText("°F");
+                }
+                else {
+                    for(int i=0;i<6;i++){
+                        temp = Double.parseDouble(max_temp[i]);
+                        temp = (temp - 32)*(5.0/9.0);
+                        max_temp[i] = df1.format(temp);
+
+                        temp = Double.parseDouble(min_temp[i]);
+                        temp = (temp - 32)*(5.0/9.0);
+                        min_temp[i] = df1.format(temp);
+                    }
+                    temp_sign = "°C";
+                    btn1.setText("°C");
+                }
+                display();
+            }
+        };
+        btn1.setOnClickListener(ocl_1);
+
     }
 
 
@@ -201,7 +241,6 @@ public class MainActivity extends AppCompatActivity {
             max_temp = new String[6];
             min_temp = new String[6];
             main = new String[6];
-            Pressure = new String[6];
             Humidity = new Integer[6];
             description = new String[6];
             icon = new Integer[6];
@@ -209,7 +248,6 @@ public class MainActivity extends AppCompatActivity {
             for (int i=0;i<list.length();i++){
                 JSONObject a = list.getJSONObject(i);
                 temp[i] = a.getString("temp");
-                Pressure[i] = a.getString("pressure");
                 temp2 = a.getString("humidity");
                 Humidity[i] = Integer.parseInt(temp2);
                 temp2 = a.getString("weather");

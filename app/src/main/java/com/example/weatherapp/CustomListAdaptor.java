@@ -40,8 +40,8 @@ public class CustomListAdaptor extends ArrayAdapter<String>  {
             TextView txt_mitemp = (TextView) rowView.findViewById(R.id.mi_temp);
             txtTitle.setText(date[position]);
             txtDes.setText(description[position]);
-            txt_matemp.setText(max_temp[position] + "°C");
-            txt_mitemp.setText(min_temp[position] + "°C");
+            txt_matemp.setText(max_temp[position] + MainActivity.temp_sign);
+            txt_mitemp.setText(min_temp[position] + MainActivity.temp_sign);
             imageView.setImageResource(icon_val[position]);
             return rowView;
         }
