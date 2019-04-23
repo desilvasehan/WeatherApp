@@ -14,13 +14,22 @@
         android:textSize="50dp"
         android:textColor="@color/txt_1"
         android:layout_centerHorizontal="true"/>
+    <TextView
+        android:id="@+id/txt_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="30dp"
+        android:textColor="@color/txt_1"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/txt_date"/>
     <ImageView
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:id="@+id/image_large"
         android:padding="30dp"
         android:layout_gravity="center"
-        android:layout_below="@id/txt_date"
+        android:layout_below="@id/txt_location"
         android:layout_centerHorizontal="true"/>
     <TextView
         android:id="@+id/avg_temp"
@@ -31,4 +40,23 @@
         android:padding="3dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/image_large"/>
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:textColor="@color/txt_1"
+        android:padding="3dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/avg_temp"/>
+    <TextView
+        android:id="@+id/humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/txt_1"
+        android:padding="3dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/description"/>
+
 </RelativeLayout>

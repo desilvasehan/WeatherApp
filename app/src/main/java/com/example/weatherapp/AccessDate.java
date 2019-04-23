@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 
 public class AccessDate extends AppCompatActivity {
     int d_no = 0;
@@ -31,11 +33,17 @@ public class AccessDate extends AppCompatActivity {
 
         TextView txt_1 = findViewById(R.id.txt_date);
         TextView txt_2 = findViewById(R.id.avg_temp);
+        TextView txt_3 = findViewById(R.id.txt_location);
+        TextView txt_4 = findViewById(R.id.description);
+        TextView txt_5 = findViewById(R.id.humidity);
         ImageView img_1 = findViewById(R.id.image_large);
 
         float avg_temp = (Float.valueOf(MainActivity.min_temp[d_no]) + Float.valueOf(MainActivity.min_temp[d_no]))/2;
         txt_1.setText(MainActivity.dates_string[d_no]);
         txt_2.setText(avg_temp + "°C");
+        txt_3.setText(MainActivity.city + "," + MainActivity.country);
+        txt_4.setText(MainActivity.description[d_no].toUpperCase());
+        txt_5.setText("Humidity: "+String.valueOf(MainActivity.Humidity[d_no])+"%");
         img_1.setImageResource(MainActivity.icon[d_no]);
     }
 

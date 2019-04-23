@@ -38,7 +38,7 @@ import java.time.format.DateTimeFormatter;
 
 public class MainActivity extends AppCompatActivity {
     public static String[] dates_string,min_temp,max_temp, main,description,Pressure;
-    public static String location = "Colombo";
+    public static String location,city,country;
     public static Integer[] Humidity;
     public static final int RequestPermissionsCode = 2;
     public Integer[] icon_list = {
@@ -193,6 +193,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             JSONObject rootObject = new JSONObject(str_test);
             JSONArray list = rootObject.getJSONArray("list");
+            JSONObject aa = rootObject.getJSONObject("city");
+            city = aa.getString("name");
+            country = aa.getString("country");
             String[] temp = new String[list.length()];
             String temp2;
             max_temp = new String[6];
@@ -220,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
 
                 JSONObject subroot2 = new JSONObject(temp2);
                 main[i] = subroot2.getString("main");
+
                 description[i] = subroot2.getString("description");
             }
 
