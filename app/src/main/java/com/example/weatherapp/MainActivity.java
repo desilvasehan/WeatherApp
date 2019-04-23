@@ -5,6 +5,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
@@ -27,13 +29,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class MainActivity extends AppCompatActivity {
     public static String[] dates_string,min_temp,max_temp, main,description,Pressure;
+    public static String location = "Colombo";
     public static Integer[] Humidity;
     public static final int RequestPermissionsCode = 2;
     public Integer[] icon_list = {
@@ -45,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.snow,
             R.drawable.thunderstorm
     };
+
+    AppLocationService appLocationService;
 
     public static Integer[] icon;
 
@@ -60,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        getlocation();
         EnableRuntimePermission();
 
         if (ActivityCompat.checkSelfPermission(getApplicationContext(),
@@ -94,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                // User chose the "Settings" item, show the app settings UI...
+                //Intent int_1 = new Intent(context,Settings.class);
                 return true;
             default:
                 // If we got here, the user's action was not recognized.
@@ -144,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             try {
-                final String BASE_URL ="http://api.openweathermap.org/data/2.5/forecast/daily?q=Colombo&mode=json&units=metric&cnt=6";
+                final String BASE_URL ="http://api.openweathermap.org/data/2.5/forecast/daily?"+ location +"&mode=json&units=metric&cnt=6";
                 final String KEY = "APPID";
                 Uri uriBuild1 = Uri.parse(BASE_URL).buildUpon().appendQueryParameter(KEY,params[0]).build();
                 URL url1= new URL(uriBuild1.toString());
@@ -267,5 +273,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void getlocation(){
+        System.out.println("Step 1");
+        appLocationService = new AppLocationService(MainActivity.this);
+        System.out.println("Step 2");
+        Location gpsLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
+        System.out.println("Step 3");
+        double latitude = gpsLocation.getLatitude();
+        double longitude = gpsLocation.getLongitude();
+        System.out.println("Step 4 " + latitude);
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+        location = "lat=" + String.format(String.valueOf(latitude), df) + "&" + "lon=" + String.format(String.valueOf(longitude)) +"";
+        System.out.println("Your Location : " + location);
+    }
 
 }
